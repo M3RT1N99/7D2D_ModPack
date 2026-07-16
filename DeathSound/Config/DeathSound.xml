@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!-- Relative to this mod folder, or use an absolute path. Supported: mp3, ogg, wav, aiff. -->
+    <AudioFile value="Audio/death.mp3" />
+
+    <!-- 0.0 to 1.0 -->
+    <Volume value="0.85" />
+
+    <!-- true = play when any player dies, false = only when your local player dies. -->
+    <PlayForRemotePlayers value="true" />
+
+    <!-- Prevents repeated double playback from overlapping network/death events. -->
+    <CooldownSeconds value="1.0" />
+</config>

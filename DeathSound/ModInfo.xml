@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+    <Name value="local-death-sound" />
+    <DisplayName value="Death Sound" />
+    <Version value="1.0.0" />
+    <Description value="Plays a local audio file when a player dies." />
+    <Author value="Codex" />
+    <Website value="" />
+</xml>

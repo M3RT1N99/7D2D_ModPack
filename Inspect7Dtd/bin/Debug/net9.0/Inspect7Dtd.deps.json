@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "Inspect7Dtd/1.0.0": {
+        "runtime": {
+          "Inspect7Dtd.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Inspect7Dtd/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

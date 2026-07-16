@@ -1,0 +1,14 @@
+C:\test\Inspect7Dtd\bin\Debug\net9.0\Inspect7Dtd.exe
+C:\test\Inspect7Dtd\bin\Debug\net9.0\Inspect7Dtd.deps.json
+C:\test\Inspect7Dtd\bin\Debug\net9.0\Inspect7Dtd.runtimeconfig.json
+C:\test\Inspect7Dtd\bin\Debug\net9.0\Inspect7Dtd.dll
+C:\test\Inspect7Dtd\bin\Debug\net9.0\Inspect7Dtd.pdb
+C:\test\Inspect7Dtd\obj\Debug\net9.0\Inspect7Dtd.GeneratedMSBuildEditorConfig.editorconfig
+C:\test\Inspect7Dtd\obj\Debug\net9.0\Inspect7Dtd.AssemblyInfoInputs.cache
+C:\test\Inspect7Dtd\obj\Debug\net9.0\Inspect7Dtd.AssemblyInfo.cs
+C:\test\Inspect7Dtd\obj\Debug\net9.0\Inspect7Dtd.csproj.CoreCompileInputs.cache
+C:\test\Inspect7Dtd\obj\Debug\net9.0\Inspect7Dtd.dll
+C:\test\Inspect7Dtd\obj\Debug\net9.0\refint\Inspect7Dtd.dll
+C:\test\Inspect7Dtd\obj\Debug\net9.0\Inspect7Dtd.pdb
+C:\test\Inspect7Dtd\obj\Debug\net9.0\Inspect7Dtd.genruntimeconfig.cache
+C:\test\Inspect7Dtd\obj\Debug\net9.0\ref\Inspect7Dtd.dll

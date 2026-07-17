@@ -51,9 +51,9 @@ namespace DeathSound
             if (_world == null)
                 return;
 
-            // Visual + sound only on the receiving client; the server already applied damage.
+            // Visual only on the receiving client; the server applied damage, and the
+            // sound is sent separately at trigger time (NetPackagePlayDeathSound).
             DeathExplosion.SpawnComposite(center, scale, particleIndex, footprint);
-            DeathSoundPlayer.Play("Explosion");
         }
 
         public override int GetLength()

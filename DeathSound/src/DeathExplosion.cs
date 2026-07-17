@@ -27,6 +27,10 @@ namespace DeathSound
             if (gm == null)
                 return;
 
+            // Sound plays NOW (trigger time: detonator click / death), decoupled from the
+            // explosion, which follows after ExplosionDelaySeconds below.
+            PlayDeathSoundEverywhere();
+
             // Native explosion carves the block crater + physics only. Its own particle
             // is disabled (ParticleIndex 0) because we render our own composite fireball,
             // and entity damage is zero (we apply tiered damage ourselves below).
@@ -75,15 +79,12 @@ namespace DeathSound
             int particleIndex = DeathSoundSettings.ExplosionParticleIndex;
             float footprint = DeathSoundSettings.ExplosionInnerRadius;
 
-            // Render the composite fireball + play the sound locally so the host / SP
-            // player sees and hears it. Skip on a headless dedicated server (no view/audio);
-            // clients get both via the broadcast below. Do NOT gate on GetPrimaryPlayer()
-            // -- right after a player's death it is null.
+            // Render the composite fireball locally so the host / SP player sees it. Skip
+            // on a headless dedicated server (no view); clients get it via the broadcast
+            // below. The sound already played at trigger time (see Spawn). Do NOT gate on
+            // GetPrimaryPlayer() - right after a death it is null.
             if (!GameManager.IsDedicatedServer)
-            {
                 SpawnComposite(center, scale, particleIndex, footprint);
-                DeathSoundPlayer.Play("Explosion");
-            }
 
             // Replicate the full look (center/scale/particle/footprint) AND the sound to
             // every client so the blast looks and sounds identical regardless of local config.
@@ -93,6 +94,19 @@ namespace DeathSound
                     .Setup(center, scale, particleIndex, footprint));
 
             ApplyTieredDamage(world, center);
+        }
+
+        // Plays the death/detonation sound immediately (trigger time): locally on the
+        // host / single-player (skip a headless dedicated server) and broadcast to every
+        // client, so all players hear it the moment it's triggered -- before the delayed blast.
+        private static void PlayDeathSoundEverywhere()
+        {
+            if (!GameManager.IsDedicatedServer)
+                DeathSoundPlayer.Play("Detonation");
+
+            ConnectionManager cm = SingletonMonoBehaviour<ConnectionManager>.Instance;
+            if (cm != null && cm.IsServer)
+                cm.SendPackage(NetPackageManager.GetPackage<NetPackagePlayDeathSound>().Setup());
         }
 
         // Server-authoritative two-tier entity damage: a flat inner "fireball" tier and a

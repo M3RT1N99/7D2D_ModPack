@@ -57,12 +57,15 @@ namespace DeathSound
 
             if (cm.IsServer)
             {
+                // Host / single-player: Spawn plays the sound now and blasts after the delay.
                 DeathExplosion.Spawn(pos);
             }
             else
             {
-                // Remote client: just request it. The server ignores our coords and uses
-                // our own entity position; the vest/cooldown checks above are local UX only.
+                // Remote client: play the sound locally right away for instant feedback,
+                // then request the blast. The server ignores our coords (uses our own
+                // entity position) and re-broadcasts the sound; our cooldown blocks the echo.
+                DeathSoundPlayer.Play("Detonation");
                 cm.SendToServer(NetPackageManager.GetPackage<NetPackageDetonateRequest>().Setup());
             }
         }

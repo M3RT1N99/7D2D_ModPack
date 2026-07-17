@@ -110,6 +110,20 @@ public sealed class ModApi : IModApi
 
 Copy the mod folder into `<GameDir>\Mods\<ModName>\`. See `DeathSound/install.ps1`.
 
+**Multiple mods in this repo.** Each mod is its own folder with its own `build.ps1`
+(compile) and `install.ps1` (build + copy). Install one with its own script, or all at
+once from the repo root:
+
+```
+.\install-all-mods.ps1              # build + install every mod into <GameDir>\Mods
+.\install-all-mods.ps1 -UserMods    # ... into %APPDATA%\7DaysToDie\Mods
+.\install-all-mods.ps1 -GamePath "D:\Games\7 Days To Die"
+```
+
+`install-all-mods.ps1` auto-discovers every subfolder that has an `install.ps1` +
+`ModInfo.xml` (new mods are picked up automatically) and prints a per-mod OK/FAILED
+summary. Each mod's own `install.ps1` also accepts `-GamePath` / `-UserMods`.
+
 **Gotchas (all hit this session):**
 - **Verify the load path from the log**, don't assume. Look for
   `[MODS] Loaded assembly <Mod> (in <path>)`. On this machine it's the Steam `Mods\`
@@ -195,6 +209,15 @@ clients spawn the visual too. Template to copy: `NetPackageExplosionClient`.
 </config>
 ```
 `Extends` inherits a base item; redefining a property/action overrides it.
+
+**⚠️ XML comment gotcha (a whole patch file silently fails to load):** an XML comment
+must NOT contain a double dash `--` (and must not end a comment line with `-`). 7DTD's
+`XmlPatcher` parses each `Config/*.xml` with `XDocument.Parse`, which throws
+`An XML comment cannot contain '--'` and then **rejects the entire file** — so none of
+your items/recipes get added and `giveself <name>` reports "item not found". Use single
+dashes or `=` for separators inside `<!-- ... -->` (e.g. `==== Section ====`), never `--`.
+Confirm in the log: `ERR XML loader: Loading XML patch file '<file>' from mod '<mod>' failed:`
+followed by the `EXC An XML comment cannot contain '--' ...` line.
 
 ### Custom item actions (C#)
 Extend `ItemAction`; the **only** abstract member is `ExecuteAction`:

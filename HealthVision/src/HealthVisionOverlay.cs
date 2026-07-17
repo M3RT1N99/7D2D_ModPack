@@ -107,8 +107,10 @@ namespace HealthVision
             }
 
             float barWidth = HealthVisionSettings.BarWidth;
+            float barHeight = HealthVisionSettings.BarHeight;
             bool showNumbers = HealthVisionSettings.ShowNumbers;
-            const float barHeight = 6f;
+            labelStyle.fontSize = HealthVisionSettings.FontSize; // config-driven each frame
+            float labelHeight = HealthVisionSettings.FontSize + 8f;
 
             for (int i = 0; i < targets.Count; i++)
             {
@@ -129,15 +131,16 @@ namespace HealthVision
                 int cur = Mathf.Clamp(a.Health, 0, max);
                 float frac = (float)cur / max;
 
-                Rect bg = new Rect(x - barWidth * 0.5f, y - barHeight - 12f, barWidth, barHeight);
+                // Dark background (acts as a border) + coloured fill inset by 2px.
+                Rect bg = new Rect(x - barWidth * 0.5f, y - barHeight - 10f, barWidth, barHeight);
                 GUI.DrawTexture(bg, black);
 
                 GUI.color = Color.Lerp(Color.red, Color.green, frac);
-                GUI.DrawTexture(new Rect(bg.x + 1f, bg.y + 1f, (barWidth - 2f) * frac, barHeight - 2f), white);
+                GUI.DrawTexture(new Rect(bg.x + 2f, bg.y + 2f, (barWidth - 4f) * frac, barHeight - 4f), white);
                 GUI.color = Color.white;
 
                 if (showNumbers)
-                    GUI.Label(new Rect(x - barWidth * 0.5f, y - barHeight - 28f, barWidth, 16f), cur + "/" + max, labelStyle);
+                    GUI.Label(new Rect(x - barWidth * 0.5f, bg.y - labelHeight, barWidth, labelHeight), cur + "/" + max, labelStyle);
             }
         }
     }

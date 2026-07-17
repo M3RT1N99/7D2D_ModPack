@@ -13,6 +13,8 @@ namespace HealthVision
         internal static float Range { get; private set; } = 40f;
         internal static bool ShowNumbers { get; private set; } = true;
         internal static float BarWidth { get; private set; } = 60f;
+        internal static float BarHeight { get; private set; } = 24f;
+        internal static int FontSize { get; private set; } = 28;
         internal static bool ShowPlayers { get; private set; } = true;
 
         internal static void Load(string modPath)
@@ -33,6 +35,8 @@ namespace HealthVision
                 Range = Mathf.Max(1f, ReadFloat(doc, "Range", Range));
                 ShowNumbers = ReadBool(doc, "ShowNumbers", ShowNumbers);
                 BarWidth = Mathf.Max(8f, ReadFloat(doc, "BarWidth", BarWidth));
+                BarHeight = Mathf.Max(2f, ReadFloat(doc, "BarHeight", BarHeight));
+                FontSize = Mathf.Clamp(ReadInt(doc, "FontSize", FontSize), 6, 96);
                 ShowPlayers = ReadBool(doc, "ShowPlayers", ShowPlayers);
             }
             catch (Exception ex)
@@ -56,6 +60,15 @@ namespace HealthVision
         {
             string value = ReadString(doc, name, "");
             if (float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out float parsed))
+                return parsed;
+
+            return fallback;
+        }
+
+        private static int ReadInt(XmlDocument doc, string name, int fallback)
+        {
+            string value = ReadString(doc, name, "");
+            if (int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int parsed))
                 return parsed;
 
             return fallback;

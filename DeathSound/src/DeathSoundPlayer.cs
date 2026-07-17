@@ -9,7 +9,7 @@ namespace DeathSound
     internal sealed class DeathSoundPlayer : MonoBehaviour
     {
         private const string Tag = "[DeathSound]";
-        private static DeathSoundPlayer instance;
+        internal static DeathSoundPlayer instance;
 
         private AudioSource source;
         private AudioClip cachedClip;

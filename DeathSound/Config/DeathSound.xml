@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-    <!-- Relative to this mod folder, or use an absolute path. Supported: mp3, ogg, wav, aiff. -->
-    <AudioFile value="Audio/death.wav" />
+    <!-- AudioFile is OPTIONAL. If omitted (or left empty), the mod auto-detects the
+         first supported file in the Audio folder (a file named "death.*" is preferred).
+         Supported: mp3, ogg, wav, aiff. Set it explicitly only to force a specific file
+         or an absolute path. -->
+    <!-- <AudioFile value="Audio/death.wav" /> -->
 
     <!-- 0.0 to 1.0 -->
     <Volume value="0.85" />
@@ -11,4 +14,39 @@
 
     <!-- Prevents repeated double playback from overlapping network/death events. -->
     <CooldownSeconds value="1.0" />
+
+    <!-- ============================ Explosion ============================ -->
+    <!-- On player death, spawn a fireball at the death position. This is a
+         server-authoritative world event with TWO flat damage tiers applied to
+         living entities (players, zombies, animals) as a percentage of max health:
+           - inner "fireball": full damage up to InnerRadius
+           - outer "shockwave": reduced damage from InnerRadius out to OuterRadius -->
+
+    <!-- Master switch. Set false to disable explosions entirely. -->
+    <ExplosionEnabled value="true" />
+
+    <!-- Seconds to wait after death before detonating (visual + damage are synced). -->
+    <ExplosionDelaySeconds value="2.0" />
+
+    <!-- Fireball core: radius in metres and damage as % of the victim's max health. -->
+    <ExplosionInnerRadius value="50" />
+    <ExplosionInnerDamagePercent value="95" />
+
+    <!-- Shockwave ring: outer radius in metres and its % damage (applied beyond the
+         inner radius, out to here). -->
+    <ExplosionOuterRadius value="150" />
+    <ExplosionOuterDamagePercent value="50" />
+
+    <!-- Block destruction is a single crater at the epicentre (entity damage uses the
+         two tiers above, not this). Set BlockRadius to 0 to leave terrain/bases intact.
+         NOTE: a large block radius over the full 150 m would be extremely destructive
+         and very hard on performance, so blocks use a small crater by default. -->
+    <ExplosionBlockDamage value="2500" />
+    <ExplosionBlockRadius value="5" />
+
+    <!-- Physics knock-back force applied by the blast (0-100). -->
+    <ExplosionBlastPower value="100" />
+
+    <!-- Which built-in explosion visual to use (0-99). 5 = HE rocket blast. -->
+    <ExplosionParticleIndex value="5" />
 </config>

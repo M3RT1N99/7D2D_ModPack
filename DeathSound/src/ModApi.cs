@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace DeathSound
 {
@@ -10,7 +11,8 @@ namespace DeathSound
             DeathSoundPlayer.Ensure();
             ModEvents.EntityKilled.RegisterHandler(OnEntityKilled);
 
-            Log.Out("[DeathSound] Loaded. AudioFile=" + DeathSoundSettings.AudioPath);
+            Log.Out("[DeathSound] Loaded. AudioFile=" + DeathSoundSettings.AudioPath
+                + ", Explosion=" + DeathSoundSettings.ExplosionEnabled);
         }
 
         private static void OnEntityKilled(ref ModEvents.SEntityKilledData data)
@@ -22,41 +24,23 @@ namespace DeathSound
                 if (killedEntity == null || killedEntity.entityType != EntityType.Player)
                     return;
 
+                // Explosion is a server-authoritative world event: it fires for any
+                // player death (DeathExplosion.Spawn self-guards to run once, on the
+                // server) and is independent of the client-side audio gate below.
+                if (DeathSoundSettings.ExplosionEnabled)
+                    DeathExplosion.Spawn(killedEntity.transform.position);
+
+                // Audio: only for the local player's death unless configured otherwise.
                 if (!DeathSoundSettings.PlayForRemotePlayers
                     && !(killedEntity is EntityPlayerLocal))
                     return;
 
                 DeathSoundPlayer.Play(killedEntity.GetDebugName());
-
-                // Setzt einen Timer, um nach 2 Sekunden eine Explosion mit Feuerball-Effekt zu spawnen
-                StartCoroutine(ExplodeAfterDelay(killedEntity.transform.position));
             }
             catch (Exception ex)
             {
                 Log.Error("[DeathSound] EntityKilled handler failed: " + ex);
             }
-        }
-
-        private static IEnumerator ExplodeAfterDelay(Vector3 position)
-        {
-            yield return new WaitForSeconds(2f);
-
-            // Spawnt die Explosion mit einem Feuerball-Effekt, Hauptradius 50m, Außerradius 150m, Hauptschaden 95%, Außerschaden 50%
-            FireBallExplosion.SpawnFireBallExplosion(position, 50f, 150f, 95f, 50f);
-        }
-    }
-
-    public class FireBallExplosion : MonoBehaviour
-    {
-        public static void SpawnFireBallExplosion(Vector3 position, float mainRadius, float outerRadius, float mainDamage, float outerDamage)
-        {
-            // Code zur Auslösung des Feuerball-Effekts und des Schadens
-            // Beispiel:
-            GameObject fireBall = Instantiate(fireBallPrefab, position, Quaternion.identity);
-            fireBall.GetComponent<FireBall>().MainRadius = mainRadius;
-            fireBall.GetComponent<FireBall>().OuterRadius = outerRadius;
-            fireBall.GetComponent<FireBall>().MainDamage = mainDamage;
-            fireBall.GetComponent<FireBall>().OuterDamage = outerDamage;
         }
     }
 }

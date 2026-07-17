@@ -17,10 +17,17 @@ if ($UserMods) {
 $target = Join-Path $modsPath "DeathSound"
 New-Item -ItemType Directory -Force -Path $target | Out-Null
 
-foreach ($entry in @("ModInfo.xml", "DeathSound.dll", "Config", "Audio")) {
-    $source = Join-Path $modRoot $entry
-    $dest = Join-Path $target $entry
-    Copy-Item -LiteralPath $source -Destination $dest -Recurse -Force
+# Top-level files: copy straight into the target.
+foreach ($file in @("ModInfo.xml", "DeathSound.dll")) {
+    Copy-Item -LiteralPath (Join-Path $modRoot $file) -Destination (Join-Path $target $file) -Force
+}
+
+# Folders: mirror the *contents* into the destination folder. Copying the folder
+# itself with -Recurse would nest it (Config\Config) whenever the target exists.
+foreach ($dir in @("Config", "Audio")) {
+    $destDir = Join-Path $target $dir
+    New-Item -ItemType Directory -Force -Path $destDir | Out-Null
+    Copy-Item -Path (Join-Path (Join-Path $modRoot $dir) "*") -Destination $destDir -Recurse -Force
 }
 
 Write-Host "Installed to $target"

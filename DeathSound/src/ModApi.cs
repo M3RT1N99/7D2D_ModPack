@@ -24,21 +24,15 @@ namespace DeathSound
                 if (killedEntity == null || killedEntity.entityType != EntityType.Player)
                     return;
 
-                // Optional: also explode on death (off by default -- the detonator item
-                // is the intended trigger). DeathExplosion.Spawn self-guards to run once,
-                // on the server, and is independent of the client-side audio gate below.
-                // NOTE: use entity.position (authoritative WORLD coords), not
-                // transform.position, which is render-space offset by the floating
-                // Origin and would place the blast hundreds of metres off.
+                // The sound is tied to the EXPLOSION (played at trigger time inside
+                // DeathExplosion.Spawn), NOT to death itself -- so there is no separate
+                // death sound here. On death we only act when ExplosionOnDeath is enabled
+                // (off by default; the detonator is the intended trigger). When off, a
+                // plain death is silent and does not explode.
+                // NOTE: entity.position = authoritative WORLD coords (not transform.position,
+                // which is render-space offset by the floating Origin).
                 if (DeathSoundSettings.ExplosionOnDeath)
                     DeathExplosion.Spawn(killedEntity.position);
-
-                // Audio: only for the local player's death unless configured otherwise.
-                if (!DeathSoundSettings.PlayForRemotePlayers
-                    && !(killedEntity is EntityPlayerLocal))
-                    return;
-
-                DeathSoundPlayer.Play(killedEntity.GetDebugName());
             }
             catch (Exception ex)
             {

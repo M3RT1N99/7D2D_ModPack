@@ -1,4 +1,10 @@
 DeathSound/DeathSound.dll
 HealthVision/HealthVision.dll
+
+# Distribution / build outputs
+dist/
+ModManager/bin/
+ModManager/obj/
+
 # Development Tools
 Inspect7Dtd/

@@ -176,6 +176,13 @@ To show a *client-side* effect on everyone, define a custom `NetPackage` — 7DT
 auto-discovers subclasses in mod assemblies
 (`ReflectionHelpers.FindTypesImplementingBase` over `ModManager.GetLoadedAssemblies()`).
 
+**⚠️ Custom NetPackages make the mod mandatory + version-locked on every machine.** They
+change the NetPackage ID table, so the server AND all clients must run the **byte-identical**
+mod build. A missing/older/different version makes a client fail to join with
+`ERR [NET] Unknown package type <Name>, can not proceed connecting to server`. Keep everyone
+on the same build — that's exactly what the Mod Updater + `publish.ps1` release-tag mechanism
+enforces. (And EAC must be off for any DLL mod, server and clients.)
+
 ```csharp
 [UnityEngine.Scripting.Preserve]
 public class NetPackageX : NetPackage {

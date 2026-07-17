@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>7DTD Mod Updater</AssemblyName>
+    <Product>7DTD Mod Updater</Product>
+    <Version>1.0.0</Version>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- The single self-contained .exe is produced via the publish command in the README
+         (PublishSingleFile + SelfContained + win-x64). -->
+  </PropertyGroup>
+
+</Project>

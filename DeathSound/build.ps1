@@ -40,6 +40,7 @@ $refs = @(
     "UnityEngine.dll",
     "UnityEngine.CoreModule.dll",
     "UnityEngine.AudioModule.dll",
+    "UnityEngine.ParticleSystemModule.dll",
     "UnityEngine.UnityWebRequestModule.dll",
     "UnityEngine.UnityWebRequestAudioModule.dll"
 ) | ForEach-Object { "/reference:" + (Join-Path $managed $_) }

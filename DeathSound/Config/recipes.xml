@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Recipes for the C4 bomb-vest set. Ingredient item names are vanilla-verified.
+  Not tagged "learnable", so they are craftable by default (no perk/schematic gate).
+  You can also just spawn them: giveself BombVest / giveself BombVestDetonator
+-->
+<config>
+    <append xpath="/recipes">
+
+        <!-- The vest (the bomb). Crafted at a workbench. -->
+        <recipe name="BombVest" count="1" craft_area="workbench" craft_time="20" tags="workbenchCrafting">
+            <ingredient name="resourceLeather" count="10"/>
+            <ingredient name="resourceCloth" count="15"/>
+            <ingredient name="resourceGunPowder" count="30"/>
+            <ingredient name="resourceDuctTape" count="5"/>
+            <ingredient name="resourceMechanicalParts" count="3"/>
+            <ingredient name="resourceElectricParts" count="3"/>
+        </recipe>
+
+        <!-- The detonator (the trigger). Hand-craftable. -->
+        <recipe name="BombVestDetonator" count="1" craft_time="10">
+            <ingredient name="resourceForgedIron" count="5"/>
+            <ingredient name="resourceMechanicalParts" count="2"/>
+            <ingredient name="resourceElectricParts" count="3"/>
+            <ingredient name="resourceDuctTape" count="1"/>
+        </recipe>
+
+    </append>
+</config>

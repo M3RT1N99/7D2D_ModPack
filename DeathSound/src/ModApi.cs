@@ -12,7 +12,7 @@ namespace DeathSound
             ModEvents.EntityKilled.RegisterHandler(OnEntityKilled);
 
             Log.Out("[DeathSound] Loaded. AudioFile=" + DeathSoundSettings.AudioPath
-                + ", Explosion=" + DeathSoundSettings.ExplosionEnabled);
+                + ", ExplosionOnDeath=" + DeathSoundSettings.ExplosionOnDeath);
         }
 
         private static void OnEntityKilled(ref ModEvents.SEntityKilledData data)
@@ -24,11 +24,14 @@ namespace DeathSound
                 if (killedEntity == null || killedEntity.entityType != EntityType.Player)
                     return;
 
-                // Explosion is a server-authoritative world event: it fires for any
-                // player death (DeathExplosion.Spawn self-guards to run once, on the
-                // server) and is independent of the client-side audio gate below.
-                if (DeathSoundSettings.ExplosionEnabled)
-                    DeathExplosion.Spawn(killedEntity.transform.position);
+                // Optional: also explode on death (off by default -- the detonator item
+                // is the intended trigger). DeathExplosion.Spawn self-guards to run once,
+                // on the server, and is independent of the client-side audio gate below.
+                // NOTE: use entity.position (authoritative WORLD coords), not
+                // transform.position, which is render-space offset by the floating
+                // Origin and would place the blast hundreds of metres off.
+                if (DeathSoundSettings.ExplosionOnDeath)
+                    DeathExplosion.Spawn(killedEntity.position);
 
                 // Audio: only for the local player's death unless configured otherwise.
                 if (!DeathSoundSettings.PlayForRemotePlayers

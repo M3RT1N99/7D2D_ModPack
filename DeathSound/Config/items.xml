@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Adds a "C4 bomb vest" + "detonator" pair.
+
+  - BombVest          : wearable chest armor = the bomb. (No built-in C4 mesh exists,
+    so it reuses the Commando tactical-vest model as a placeholder look.)
+  - BombVestDetonator : held item; left- or right-click triggers the DeathSound explosion
+    at the wielder's position (server-authoritative).
+
+  By default the detonator only fires while the vest is worn, and the vest is consumed on
+  detonation (both toggleable in Config/DeathSound.xml). Craft them (see recipes.xml), or
+  get them via the creative/dev menu / console:
+      giveself BombVest
+      giveself BombVestDetonator
+
+  The detonator extends the flashlight and the vest extends the Commando outfit purely to
+  inherit a valid mesh/slot/sounds; only the detonator's action slots are replaced with our
+  custom ItemActionDetonate (resolved from this mod's assembly). No custom art required.
+-->
+<config>
+    <append xpath="/items">
+        <item name="BombVestDetonator">
+            <!-- Extends the flashlight so it holds like a small handheld device (a
+                 remote-control-ish look) instead of a knife. Icon = our custom PNG
+                 UIAtlases/ItemIconAtlas/BombVestDetonator.png (item falls back to a
+                 sprite matching its own name when no CustomIcon is set). -->
+            <property name="Extends" value="meleeToolFlashlight02"/>
+            <property name="CreativeMode" value="Player"/>
+            <property name="Group" value="Ammo/Weapons"/>
+
+            <property class="Action0">
+                <property name="Class" value="DeathSound.ItemActionDetonate, DeathSound"/>
+                <property name="Delay" value="0.3"/>
+            </property>
+            <property class="Action1">
+                <property name="Class" value="DeathSound.ItemActionDetonate, DeathSound"/>
+                <property name="Delay" value="0.3"/>
+            </property>
+        </item>
+
+        <item name="BombVest">
+            <!-- Wearable chest armor = the "C4 vest". Extends the Commando medium-armor
+                 set to inherit the Chest EquipSlot, ItemClassArmor, armor tags and the worn
+                 character prefab. Placeholder look only (Commando tactical vest); a real
+                 C4 appearance would need a custom asset bundle. -->
+            <property name="Extends" value="armorCommandoOutfit"/>
+            <property name="CreativeMode" value="Player"/>
+        </item>
+    </append>
+</config>

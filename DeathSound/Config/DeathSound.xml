@@ -16,37 +16,55 @@
     <CooldownSeconds value="1.0" />
 
     <!-- ============================ Explosion ============================ -->
-    <!-- On player death, spawn a fireball at the death position. This is a
-         server-authoritative world event with TWO flat damage tiers applied to
-         living entities (players, zombies, animals) as a percentage of max health:
+    <!-- The explosion (fireball + two-tier damage + crater) is triggered by the
+         detonator item. The settings below tune that explosion regardless of trigger.
+         A server-authoritative world event with TWO flat damage tiers on living
+         entities (as a percentage of max health):
            - inner "fireball": full damage up to InnerRadius
            - outer "shockwave": reduced damage from InnerRadius out to OuterRadius -->
 
-    <!-- Master switch. Set false to disable explosions entirely. -->
-    <ExplosionEnabled value="true" />
+    <!-- Also explode automatically when a player DIES. Off by default; the detonator
+         is the intended trigger. Set true to additionally blow up on every player death. -->
+    <ExplosionOnDeath value="false" />
 
     <!-- Seconds to wait after death before detonating (visual + damage are synced). -->
-    <ExplosionDelaySeconds value="2.0" />
+    <ExplosionDelaySeconds value="1.1" />
 
     <!-- Fireball core: radius in metres and damage as % of the victim's max health. -->
     <ExplosionInnerRadius value="50" />
-    <ExplosionInnerDamagePercent value="95" />
+    <ExplosionInnerDamagePercent value="100" />
 
     <!-- Shockwave ring: outer radius in metres and its % damage (applied beyond the
          inner radius, out to here). -->
     <ExplosionOuterRadius value="150" />
-    <ExplosionOuterDamagePercent value="50" />
+    <ExplosionOuterDamagePercent value="95" />
 
     <!-- Block destruction is a single crater at the epicentre (entity damage uses the
          two tiers above, not this). Set BlockRadius to 0 to leave terrain/bases intact.
          NOTE: a large block radius over the full 150 m would be extremely destructive
          and very hard on performance, so blocks use a small crater by default. -->
-    <ExplosionBlockDamage value="2500" />
-    <ExplosionBlockRadius value="5" />
+    <ExplosionBlockDamage value="30000" />
+    <ExplosionBlockRadius value="15" />
 
     <!-- Physics knock-back force applied by the blast (0-100). -->
     <ExplosionBlastPower value="100" />
 
     <!-- Which built-in explosion visual to use (0-99). 5 = HE rocket blast. -->
     <ExplosionParticleIndex value="5" />
+
+    <!-- Visual-only size multiplier for the fireball. 7DTD has no 50m explosion asset,
+         so a copy of the prefab above is scaled up to fake a large fireball. 1 = normal
+         size; increase for a bigger ball (e.g. 15-20). Does not affect damage radius.
+         Single-player/host only; remote clients still see a normal-sized blast. -->
+    <ExplosionVisualScale value="20" />
+
+    <!-- ======================= Detonator / C4 vest ======================= -->
+    <!-- The bomb vest (BombVest) is the bomb; the detonator sets it off. -->
+
+    <!-- true = the detonator only fires while the bomb vest is worn.
+         false = the detonator works on its own (no vest needed). -->
+    <DetonatorRequiresVest value="true" />
+
+    <!-- true = the worn bomb vest is destroyed when you detonate. -->
+    <DetonatorConsumesVest value="true" />
 </config>

@@ -24,17 +24,27 @@ namespace DeathSound
         // --- Explosion on player death (server-authoritative world event) ---
         // Two flat damage tiers applied as a percentage of each victim's max health:
         // an inner "fireball" core and an outer "shockwave" ring.
-        internal static bool ExplosionEnabled { get; private set; } = true;
+        // Explode automatically on player death. Off by default: the detonator item is
+        // the intended trigger. The other Explosion* settings tune the blast either way.
+        internal static bool ExplosionOnDeath { get; private set; } = false;
         internal static float ExplosionDelaySeconds { get; private set; } = 2.0f;
         internal static float ExplosionInnerRadius { get; private set; } = 50f;
         internal static float ExplosionInnerDamagePercent { get; private set; } = 95f;
         internal static float ExplosionOuterRadius { get; private set; } = 150f;
         internal static float ExplosionOuterDamagePercent { get; private set; } = 50f;
         // Block destruction is a single crater (the tier model applies to entities only).
-        internal static float ExplosionBlockDamage { get; private set; } = 2500f;
-        internal static float ExplosionBlockRadius { get; private set; } = 5f;
+        internal static float ExplosionBlockDamage { get; private set; } = 30000f;
+        internal static float ExplosionBlockRadius { get; private set; } = 15f;
         internal static int ExplosionBlastPower { get; private set; } = 100;
         internal static int ExplosionParticleIndex { get; private set; } = 5;
+        // Visual-only multiplier: scales a copy of the explosion prefab up to fake a
+        // large fireball (7DTD has no big-explosion asset). 1 = normal size.
+        internal static float ExplosionVisualScale { get; private set; } = 10f;
+
+        // --- Detonator / C4 bomb vest ---
+        // The vest (BombVest) is the bomb; the detonator triggers it.
+        internal static bool DetonatorRequiresVest { get; private set; } = true;
+        internal static bool DetonatorConsumesVest { get; private set; } = true;
 
         private static string resolvedAudioPath;
 
@@ -66,7 +76,7 @@ namespace DeathSound
                     PlayForRemotePlayers = ReadBool(doc, "PlayForRemotePlayers", PlayForRemotePlayers);
                     CooldownSeconds = Mathf.Max(0f, ReadFloat(doc, "CooldownSeconds", CooldownSeconds));
 
-                    ExplosionEnabled = ReadBool(doc, "ExplosionEnabled", ExplosionEnabled);
+                    ExplosionOnDeath = ReadBool(doc, "ExplosionOnDeath", ExplosionOnDeath);
                     ExplosionDelaySeconds = Mathf.Max(0f, ReadFloat(doc, "ExplosionDelaySeconds", ExplosionDelaySeconds));
                     ExplosionInnerRadius = Mathf.Max(0f, ReadFloat(doc, "ExplosionInnerRadius", ExplosionInnerRadius));
                     ExplosionInnerDamagePercent = Mathf.Max(0f, ReadFloat(doc, "ExplosionInnerDamagePercent", ExplosionInnerDamagePercent));
@@ -78,6 +88,10 @@ namespace DeathSound
                     // must index WorldStaticData.prefabExplosions (0..99).
                     ExplosionBlastPower = Mathf.Clamp(ReadInt(doc, "ExplosionBlastPower", ExplosionBlastPower), 0, 100);
                     ExplosionParticleIndex = Mathf.Clamp(ReadInt(doc, "ExplosionParticleIndex", ExplosionParticleIndex), 0, 99);
+                    ExplosionVisualScale = Mathf.Max(1f, ReadFloat(doc, "ExplosionVisualScale", ExplosionVisualScale));
+
+                    DetonatorRequiresVest = ReadBool(doc, "DetonatorRequiresVest", DetonatorRequiresVest);
+                    DetonatorConsumesVest = ReadBool(doc, "DetonatorConsumesVest", DetonatorConsumesVest);
                 }
                 catch (Exception ex)
                 {

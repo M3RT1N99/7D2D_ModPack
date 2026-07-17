@@ -1,0 +1,2 @@
+Key,english
+HealthVisionGoggles,Health Vision Goggles

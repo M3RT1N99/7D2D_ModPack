@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!-- How far (metres) around you health bars are shown. -->
+    <Range value="40" />
+
+    <!-- Show the "current/max" number under each bar. -->
+    <ShowNumbers value="true" />
+
+    <!-- Pixel width of each health bar. -->
+    <BarWidth value="60" />
+
+    <!-- Also show bars over other players (not just zombies/animals). -->
+    <ShowPlayers value="true" />
+</config>

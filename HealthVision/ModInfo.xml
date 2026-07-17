@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+    <Name value="HealthVision" />
+    <DisplayName value="Health Vision Goggles" />
+    <Version value="1.0.0" />
+    <Description value="Wearable goggles that show the health of all nearby units on screen while worn." />
+    <Author value="Codex" />
+    <Website value="" />
+</xml>

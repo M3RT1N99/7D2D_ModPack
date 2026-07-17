@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Adds "HealthVisionGoggles": wearable goggles that, while worn, show a health bar +
+  number above every nearby living entity (handled by the mod's C# overlay).
+
+  Get it via the creative/dev menu, or console:  giveself HealthVisionGoggles
+
+  NOTE: 7DTD has no Eyes/Face equip slot, so this uses the ClothingHead cosmetic slot
+  (a head liner) so it can be worn alongside a real armor helmet. It extends the vanilla
+  clothing template purely for a valid wearable; the goggles look is a placeholder
+  (stock clothing-head icon, tinted) until a custom model/icon is authored.
+-->
+<config>
+    <append xpath="/items">
+        <item name="HealthVisionGoggles">
+            <property name="Extends" value="clothingMaster"/>
+            <property name="CreativeMode" value="Player"/>
+            <property name="EquipSlot" value="ClothingHead"/>
+            <property name="Tags" value="healthVision,clothingT1"/>
+            <property name="EconomicValue" value="100"/>
+            <property name="SellableToTrader" value="false"/>
+            <!-- Placeholder look: stock clothing-head icon, green-tinted to stand out. -->
+            <property name="CustomIcon" value="clothingHeadT1"/>
+            <property name="CustomIconTint" value="50e070"/>
+        </item>
+    </append>
+</config>

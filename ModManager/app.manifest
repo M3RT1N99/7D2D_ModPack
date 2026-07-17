@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<assembly manifest xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
   <!-- The game's Mods folder lives under C:\Program Files (x86), which needs admin rights
        to write. Request elevation so the updater can install/overwrite mod files. -->
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>
-      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+      <requestedPrivileges>
         <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
       </requestedPrivileges>
     </security>
